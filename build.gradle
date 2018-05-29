@@ -1,4 +1,4 @@
-group 'pl.jangrot.moneytransfer'
+group 'pl.jangrot.mtransfer'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'groovy'
@@ -11,5 +11,16 @@ repositories {
 }
 
 dependencies {
-    testCompile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'com.sparkjava:spark-core:2.5.5',
+            'com.google.inject:guice:4.2.0',
+            'com.google.inject.extensions:guice-persist:4.2.0',
+            'com.h2database:h2:1.4.197',
+            'org.hibernate:hibernate-core:5.2.16.Final',
+            'org.projectlombok:lombok:1.16.20',
+            'org.slf4j:slf4j-api:1.7.25',
+            'org.slf4j:slf4j-simple:1.7.25'
+    testCompile 'junit:junit:4.12',
+            'org.assertj:assertj-core:3.10.0',
+            'org.mockito:mockito-core:2.18.3'
+
 }
