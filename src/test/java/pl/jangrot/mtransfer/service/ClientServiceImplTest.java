@@ -1,7 +1,6 @@
 package pl.jangrot.mtransfer.service;
 
 import org.assertj.core.util.Lists;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,6 +10,7 @@ import pl.jangrot.mtransfer.dao.ClientDao;
 import pl.jangrot.mtransfer.model.Client;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -24,11 +24,6 @@ public class ClientServiceImplTest {
 
     @InjectMocks
     private ClientServiceImpl underTest;
-
-    @Before
-    public void setUp() {
-
-    }
 
     @Test
     public void getAll_returnsAllClients() {
@@ -54,5 +49,18 @@ public class ClientServiceImplTest {
 
         // then
         assertThat(actual).isEmpty();
+    }
+
+    @Test
+    public void getById_returnsSingleClient() {
+        // given
+        Client c1 = createClientWithRandomId("Abc", "Qaz");
+        when(clientDao.getById(c1.getId())).thenReturn(Optional.of(c1));
+
+        // when
+        Optional<Client> actual = underTest.getById(c1.getId());
+
+        // then
+        assertThat(actual.get()).isEqualTo(c1);
     }
 }

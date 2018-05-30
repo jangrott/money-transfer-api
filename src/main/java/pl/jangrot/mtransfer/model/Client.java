@@ -3,6 +3,8 @@ package pl.jangrot.mtransfer.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "client")
@@ -17,7 +19,9 @@ public class Client {
     @Column
     private String firstName;
 
-
     @Column
     private String lastName;
+
+    @OneToMany(mappedBy = "client")
+    private Set<Account> accounts = new HashSet<>();
 }
