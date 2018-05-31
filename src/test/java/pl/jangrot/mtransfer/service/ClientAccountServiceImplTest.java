@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import pl.jangrot.mtransfer.dao.ClientAccountDao;
+import pl.jangrot.mtransfer.exception.AccountNotFoundException;
 import pl.jangrot.mtransfer.exception.ClientNotFoundException;
 import pl.jangrot.mtransfer.model.Account;
 import pl.jangrot.mtransfer.model.Client;
@@ -113,6 +114,28 @@ public class ClientAccountServiceImplTest {
 
     @Test
     public void returnsSingleAccountForGivenClient() {
+        // given
+        UUID clientId = UUID.randomUUID();
+        long accountId = 1L;
+        Account a = createAccount(accountId, BigDecimal.TEN);
+        Set<Account> accounts = ImmutableSet.of(a);
+        when(clientAccountDao.getClient(clientId))
+                .thenReturn(Optional.of(createClientWithAccounts(clientId, "Abc", "Qaz", accounts)));
 
+        // when
+        Account actual = underTest.getAccount(clientId, accountId);
+
+        // then
+        assertThat(actual).isEqualTo(a);
+    }
+
+    @Test(expected = AccountNotFoundException.class)
+    public void throwsExceptionWhenAccountNotFoundForGivenUser() {
+        // given
+        UUID clientId = UUID.randomUUID();
+        when(clientAccountDao.getClient(any(UUID.class))).thenReturn(Optional.of(createClient(clientId, "Avc", "Qwa")));
+
+        // when
+        underTest.getAccount(clientId, 1L);
     }
 }
