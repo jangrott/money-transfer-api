@@ -3,7 +3,6 @@ package pl.jangrot.mtransfer.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +21,7 @@ public class Client {
     @Column
     private String lastName;
 
-    @OneToMany(mappedBy = "client")
-    private Set<Account> accounts = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Account> accounts;
+
 }

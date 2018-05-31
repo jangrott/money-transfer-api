@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     compile 'com.sparkjava:spark-core:2.5.5',
+            'com.google.code.gson:gson:2.8.2',
             'com.google.inject:guice:4.2.0',
             'com.google.inject.extensions:guice-persist:4.2.0',
             'com.h2database:h2:1.4.197',

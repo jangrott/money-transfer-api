@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ClientDao {
+public interface ClientAccountDao {
 
-    List<Client> getAll();
+    List<Client> getClients();
 
-    Optional<Client> getById(UUID id);
+    Optional<Client> getClient(UUID clientId);
+
 }

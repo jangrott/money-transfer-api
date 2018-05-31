@@ -3,6 +3,7 @@ package pl.jangrot.mtransfer.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity(name = "account")
 @Data
@@ -10,9 +11,11 @@ public class Account {
 
     @Id
     @Column
-    private Long number;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq-gen")
+    @SequenceGenerator(name = "seq-gen",
+            sequenceName = "user_sequence", initialValue = 236476251)
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private Client client;
+    @Column
+    private BigDecimal balance = BigDecimal.ZERO;
 }
