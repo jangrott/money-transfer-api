@@ -42,7 +42,7 @@ public class ClientAccountServiceImpl implements ClientAccountService {
                 .filter(account -> account.getId().equals(accountId))
                 .findFirst()
                 .orElseThrow(() -> new AccountNotFoundException(
-                        String.format("Account with id %s cannot be found", accountId)));
+                        String.format("Account with id: %s cannot be found", accountId)));
     }
 
     private Client fetchClient(UUID clientId) {

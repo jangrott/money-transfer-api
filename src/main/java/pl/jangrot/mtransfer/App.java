@@ -12,7 +12,13 @@ public class App {
         Injector injector = Guice.createInjector(new AppModule(), new JpaPersistModule(PERSISTENCE_UNIT_NAME));
         injector.getInstance(AppInitializer.class);
 
-        injector.getInstance(DataGenerator.class);
+        if (dataGenerationEnabled(args)) {
+            injector.getInstance(DataGenerator.class);
+        }
+    }
+
+    private static boolean dataGenerationEnabled(String[] args) {
+        return args.length > 0 && Boolean.valueOf(args[0]);
     }
 
 }

@@ -22,6 +22,8 @@ dependencies {
             'org.slf4j:slf4j-simple:1.7.25'
     testCompile 'junit:junit:4.12',
             'org.assertj:assertj-core:3.10.0',
-            'org.mockito:mockito-core:2.18.3'
-
+            'org.mockito:mockito-core:2.18.3',
+            'io.cucumber:cucumber-java:2.4.0',
+            'io.cucumber:cucumber-junit:2.4.0',
+            'io.rest-assured:rest-assured:3.0.6'
 }

@@ -1,7 +1,9 @@
 package pl.jangrot.mtransfer.dao;
 
 import org.assertj.core.util.Lists;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.jangrot.mtransfer.model.Client;
 
@@ -15,6 +17,16 @@ import static pl.jangrot.mtransfer.util.TestDataGenerator.createClient;
 public class ClientAccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
 
     private ClientAccountDao underTest;
+
+    @BeforeClass
+    public static void init() {
+        AbstractDaoIntegrationTest.init();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        AbstractDaoIntegrationTest.tearDown();
+    }
 
     @Before
     public void setUp() {
@@ -67,16 +79,4 @@ public class ClientAccountDaoImplIntegrationTest extends AbstractDaoIntegrationT
         assertThat(actual.isPresent()).isFalse();
     }
 
-    private void deleteClients() {
-        getEm().getTransaction().begin();
-        getEm().createQuery("delete from client").executeUpdate();
-        getEm().getTransaction().commit();
-    }
-
-
-    private void storeClients(List<Client> clients) {
-        getEm().getTransaction().begin();
-        clients.forEach(getEm()::persist);
-        getEm().getTransaction().commit();
-    }
 }
