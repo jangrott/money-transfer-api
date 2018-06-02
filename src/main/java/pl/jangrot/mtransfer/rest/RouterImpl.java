@@ -60,16 +60,20 @@ public class RouterImpl implements Router {
                         });
                     });
                 });
+            });
 
-                exception(ClientNotFoundException.class, (ex, req, res) -> {
-                    res.status(404);
-                    res.body(String.format(EXCEPTION_BODY, 404, ex.getMessage()));
-                });
+            post("/transfer", (req, res) -> {
+                throw new UnsupportedOperationException("Not implemented yet");
+            });
 
-                exception(AccountNotFoundException.class, (ex, req, res) -> {
-                    res.status(404);
-                    res.body(String.format(EXCEPTION_BODY, 404, ex.getMessage()));
-                });
+            exception(ClientNotFoundException.class, (ex, req, res) -> {
+                res.status(404);
+                res.body(String.format(EXCEPTION_BODY, 404, ex.getMessage()));
+            });
+
+            exception(AccountNotFoundException.class, (ex, req, res) -> {
+                res.status(404);
+                res.body(String.format(EXCEPTION_BODY, 404, ex.getMessage()));
             });
         });
     }

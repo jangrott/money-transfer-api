@@ -5,6 +5,7 @@ import pl.jangrot.mtransfer.model.Client;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class TestUtils {
 
@@ -15,12 +16,12 @@ public class TestUtils {
                 .orElse(null);
     }
 
-    public static String extractClientId(Client client) {
-        return client.getId().toString();
+    public static UUID extractClientId(Client client) {
+        return client.getId();
     }
 
-    public static Long extractAccountId(Client client) {
-        return client.getAccounts().stream().findFirst().map(Account::getId).orElse(null);
+    public static Account extractAccount(Client client) {
+        return client.getAccounts().stream().findFirst().orElse(null);
     }
 
     public static BigDecimal toBigDecimal(String balance) {
