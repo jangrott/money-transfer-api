@@ -13,12 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-public class ClientAccountDaoImpl implements ClientAccountDao {
+public class ClientDaoImpl implements ClientDao {
 
     private final Provider<EntityManager> em;
 
     @Inject
-    public ClientAccountDaoImpl(Provider<EntityManager> em) {
+    public ClientDaoImpl(Provider<EntityManager> em) {
         this.em = em;
     }
 

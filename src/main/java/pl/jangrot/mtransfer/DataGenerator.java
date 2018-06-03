@@ -35,7 +35,7 @@ public class DataGenerator {
         Client client = new Client();
         client.setFirstName(firstName);
         client.setLastName(lastName);
-        client.setAccounts(accounts);
+        accounts.forEach(client::addAccount);
         return client;
     }
 

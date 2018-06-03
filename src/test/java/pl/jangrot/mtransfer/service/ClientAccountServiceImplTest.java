@@ -1,35 +1,39 @@
 package pl.jangrot.mtransfer.service;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import pl.jangrot.mtransfer.dao.ClientAccountDao;
+import pl.jangrot.mtransfer.dao.AccountDao;
+import pl.jangrot.mtransfer.dao.ClientDao;
 import pl.jangrot.mtransfer.exception.AccountNotFoundException;
 import pl.jangrot.mtransfer.exception.ClientNotFoundException;
 import pl.jangrot.mtransfer.model.Account;
 import pl.jangrot.mtransfer.model.Client;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.*;
+import static pl.jangrot.mtransfer.util.TestDataGenerator.createAccount;
+import static pl.jangrot.mtransfer.util.TestDataGenerator.createClient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientAccountServiceImplTest {
 
     @Mock
-    private ClientAccountDao clientAccountDao;
+    private AccountDao accountDao;
+
+    @Mock
+    private ClientDao clientDao;
 
     @InjectMocks
     private ClientAccountServiceImpl underTest;
@@ -39,7 +43,7 @@ public class ClientAccountServiceImplTest {
         // given
         Client c1 = createClient(UUID.randomUUID(), "Abc", "Qaz");
         Client c2 = createClient(UUID.randomUUID(), "Zxc", "Qwe");
-        when(clientAccountDao.getClients()).thenReturn(Lists.newArrayList(c1, c2));
+        when(clientDao.getClients()).thenReturn(Lists.newArrayList(c1, c2));
 
         // when
         List<Client> actual = underTest.getClients();
@@ -51,7 +55,7 @@ public class ClientAccountServiceImplTest {
     @Test
     public void returnsEmptyListWhenNoClients() {
         // given
-        when(clientAccountDao.getClients()).thenReturn(Lists.newArrayList());
+        when(clientDao.getClients()).thenReturn(Lists.newArrayList());
 
         // when
         List<Client> actual = underTest.getClients();
@@ -64,7 +68,7 @@ public class ClientAccountServiceImplTest {
     public void returnsSingleClient() {
         // given
         Client c1 = createClient(UUID.randomUUID(), "Abc", "Qaz");
-        when(clientAccountDao.getClient(c1.getId())).thenReturn(Optional.of(c1));
+        when(clientDao.getClient(c1.getId())).thenReturn(Optional.of(c1));
 
         // when
         Client actual = underTest.getClient(c1.getId());
@@ -76,7 +80,7 @@ public class ClientAccountServiceImplTest {
     @Test(expected = ClientNotFoundException.class)
     public void throwsExceptionWhenClientNotFound() {
         // given
-        when(clientAccountDao.getClient(any(UUID.class))).thenReturn(Optional.empty());
+        when(clientDao.getClient(any(UUID.class))).thenReturn(Optional.empty());
 
         // when
         underTest.getClient(UUID.randomUUID());
@@ -86,7 +90,7 @@ public class ClientAccountServiceImplTest {
     public void returnsEmptyAccountListWhenNoAccountsForGivenClient() {
         // given
         UUID clientId = UUID.randomUUID();
-        when(clientAccountDao.getClient(eq(clientId))).thenReturn(Optional.of(createClient(clientId, "Abc", "Zxc")));
+        when(accountDao.getAccounts(clientId)).thenReturn(Collections.emptyList());
 
         // when
         List<Account> actual = underTest.getAccounts(clientId);
@@ -101,9 +105,8 @@ public class ClientAccountServiceImplTest {
         UUID clientId = UUID.randomUUID();
         Account a1 = createAccount(1L, BigDecimal.ZERO);
         Account a2 = createAccount(2L, BigDecimal.TEN);
-        Set<Account> accounts = ImmutableSet.of(a1, a2);
-        when(clientAccountDao.getClient(clientId))
-                .thenReturn(Optional.of(createClientWithAccounts(clientId, "Abc", "Qaz", accounts)));
+        List<Account> accounts = ImmutableList.of(a1, a2);
+        when(accountDao.getAccounts(clientId)).thenReturn(accounts);
 
         // when
         List<Account> actual = underTest.getAccounts(clientId);
@@ -118,9 +121,7 @@ public class ClientAccountServiceImplTest {
         UUID clientId = UUID.randomUUID();
         long accountId = 1L;
         Account a = createAccount(accountId, BigDecimal.TEN);
-        Set<Account> accounts = ImmutableSet.of(a);
-        when(clientAccountDao.getClient(clientId))
-                .thenReturn(Optional.of(createClientWithAccounts(clientId, "Abc", "Qaz", accounts)));
+        when(accountDao.getAccount(clientId, 1L)).thenReturn(Optional.of(a));
 
         // when
         Account actual = underTest.getAccount(clientId, accountId);
@@ -132,10 +133,11 @@ public class ClientAccountServiceImplTest {
     @Test(expected = AccountNotFoundException.class)
     public void throwsExceptionWhenAccountNotFoundForGivenUser() {
         // given
+        long nonExistingAccountId = 1L;
         UUID clientId = UUID.randomUUID();
-        when(clientAccountDao.getClient(any(UUID.class))).thenReturn(Optional.of(createClient(clientId, "Avc", "Qwa")));
+        when(accountDao.getAccount(clientId, nonExistingAccountId)).thenReturn(Optional.empty());
 
         // when
-        underTest.getAccount(clientId, 1L);
+        underTest.getAccount(clientId, nonExistingAccountId);
     }
 }

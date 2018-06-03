@@ -1,12 +1,18 @@
 package pl.jangrot.mtransfer.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity(name = "account")
-@Data
+@Getter
+@Setter
+@ToString(exclude = "_client")
+@EqualsAndHashCode(exclude = "_client")
 public class Account {
 
     @Id
@@ -18,4 +24,8 @@ public class Account {
 
     @Column
     private BigDecimal balance = BigDecimal.ZERO;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_client", updatable = false, nullable = false)
+    private Client _client;
 }

@@ -5,12 +5,14 @@ import pl.jangrot.mtransfer.model.Client;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractDaoIntegrationTest {
 
     private static EntityManagerFactory emf;
     private static EntityManager em;
+    private static List<Client> clients = new ArrayList<>();
 
     public static void init() {
         emf = Persistence.createEntityManagerFactory("mtransfer");
@@ -27,17 +29,21 @@ public class AbstractDaoIntegrationTest {
         return em;
     }
 
-    protected List<Client> storeClients(List<Client> clients) {
+    protected List<Client> storeClients(List<Client> toSave) {
         getEm().getTransaction().begin();
-        clients.forEach(getEm()::persist);
+        toSave.forEach(getEm()::persist);
         getEm().getTransaction().commit();
 
-        return clients;
+        clients.addAll(toSave);
+
+        return toSave;
     }
 
-    protected void deleteClients() {
+    protected void cleanDB() {
         getEm().getTransaction().begin();
-        getEm().createQuery("delete from client").executeUpdate();
+        clients.forEach(getEm()::remove);
+        clients.clear();
         getEm().getTransaction().commit();
     }
+
 }

@@ -1,10 +1,7 @@
 package pl.jangrot.mtransfer.dao;
 
 import org.assertj.core.util.Lists;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import pl.jangrot.mtransfer.model.Client;
 
 import java.util.List;
@@ -14,9 +11,9 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static pl.jangrot.mtransfer.util.TestDataGenerator.createClient;
 
-public class ClientAccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
+public class ClientDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
 
-    private ClientAccountDao underTest;
+    private ClientDao underTest;
 
     @BeforeClass
     public static void init() {
@@ -30,8 +27,12 @@ public class ClientAccountDaoImplIntegrationTest extends AbstractDaoIntegrationT
 
     @Before
     public void setUp() {
-        deleteClients();
-        underTest = new ClientAccountDaoImpl(AbstractDaoIntegrationTest::getEm);
+        underTest = new ClientDaoImpl(AbstractDaoIntegrationTest::getEm);
+    }
+
+    @After
+    public void clearDB() {
+        cleanDB();
     }
 
     @Test
@@ -72,8 +73,11 @@ public class ClientAccountDaoImplIntegrationTest extends AbstractDaoIntegrationT
 
     @Test
     public void returnsEmptyOptionalWhenClientNotFound() {
+        // given
+        UUID nonExistingClientId = UUID.randomUUID();
+
         // when
-        Optional<Client> actual = underTest.getClient(UUID.randomUUID());
+        Optional<Client> actual = underTest.getClient(nonExistingClientId);
 
         // then
         assertThat(actual.isPresent()).isFalse();

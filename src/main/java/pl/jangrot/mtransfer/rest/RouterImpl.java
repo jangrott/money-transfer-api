@@ -2,6 +2,7 @@ package pl.jangrot.mtransfer.rest;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import pl.jangrot.mtransfer.dto.TransferRequest;
 import pl.jangrot.mtransfer.exception.AccountNotFoundException;
 import pl.jangrot.mtransfer.exception.ClientNotFoundException;
 import pl.jangrot.mtransfer.service.ClientAccountService;
@@ -63,7 +64,8 @@ public class RouterImpl implements Router {
             });
 
             post("/transfer", (req, res) -> {
-                throw new UnsupportedOperationException("Not implemented yet");
+                TransferRequest transferRequest = gson.fromJson(req.body(), TransferRequest.class);
+                return "";
             });
 
             exception(ClientNotFoundException.class, (ex, req, res) -> {

@@ -2,13 +2,13 @@ package pl.jangrot.mtransfer.rest;
 
 import com.google.gson.JsonObject;
 import cucumber.api.DataTable;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import pl.jangrot.mtransfer.dao.AbstractDaoIntegrationTest;
 import pl.jangrot.mtransfer.model.Account;
 import pl.jangrot.mtransfer.model.Client;
@@ -50,9 +50,9 @@ public class StepDefinitions extends AbstractDaoIntegrationTest {
     private List<Client> savedClients;
     private List<Client> clients;
 
-    @Before
-    public void setUp() {
-        deleteClients();
+    @After
+    public void clearDB() {
+        cleanDB();
     }
 
     @Given("^system contains following clients$")
@@ -69,7 +69,7 @@ public class StepDefinitions extends AbstractDaoIntegrationTest {
                     Client client = getClientByFirstAndLastName(clients, row.get("firstName"), row.get("lastName"));
                     Account account = new Account();
                     account.setBalance(toBigDecimal(row.get("accountBalance")));
-                    client.getAccounts().add(account);
+                    client.addAccount(account);
                 });
     }
 
