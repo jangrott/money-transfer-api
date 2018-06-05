@@ -14,6 +14,8 @@ Feature: Transfer REST API
       | toAccount   | <JaneDoeAccountId> |
       | amount      | 5000.00            |
     Then response status is 200
+    And response includes the following transfer status
+      | transferStatus | OK |
     And balance of accounts are following
       | accountId        | balance  |
       | <JohnDoeAccount> | 5000.00  |

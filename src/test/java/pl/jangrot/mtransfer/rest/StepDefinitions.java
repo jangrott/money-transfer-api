@@ -138,6 +138,13 @@ public class StepDefinitions extends AbstractDaoIntegrationTest {
                 .body("message", equalTo(resolvePlaceholders(expected.get("message"))));
     }
 
+    @Then("^response includes the following transfer status$")
+    public void checkResponseTransfer(DataTable expectedData) {
+        Map<String, String> expected = expectedData.asMap(String.class, String.class);
+
+        json.body("transferStatus", equalTo(expected.get("transferStatus")));
+    }
+
     @Then("^response includes the following accounts$")
     public void checkResponseMultipleAccounts(DataTable expectedData) {
         expectedData.asMaps(String.class, String.class)
