@@ -11,4 +11,9 @@ public interface AccountDao {
     List<Account> getAccounts(UUID clientId);
 
     Optional<Account> getAccount(UUID clientId, Long accountId);
+
+    Optional<Account> getAccount(Long accountId);
+
+    void update(Account account);
+
 }

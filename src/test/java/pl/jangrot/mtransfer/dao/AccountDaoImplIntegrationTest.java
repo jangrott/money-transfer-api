@@ -82,7 +82,7 @@ public class AccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
         // given
         long nonExistingAccountId = 0L;
         UUID clientId = UUID.randomUUID();
-        
+
         // when
         Optional<Account> actual = underTest.getAccount(clientId, nonExistingAccountId);
 

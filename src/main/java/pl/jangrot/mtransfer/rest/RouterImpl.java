@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import pl.jangrot.mtransfer.dto.TransferRequest;
 import pl.jangrot.mtransfer.exception.AccountNotFoundException;
 import pl.jangrot.mtransfer.exception.ClientNotFoundException;
+import pl.jangrot.mtransfer.exception.InsufficientFundsException;
+import pl.jangrot.mtransfer.exception.InvalidAmountValueException;
 import pl.jangrot.mtransfer.service.ClientAccountService;
+import pl.jangrot.mtransfer.service.TransferService;
 
 import javax.inject.Inject;
 import java.util.UUID;
@@ -20,11 +23,13 @@ public class RouterImpl implements Router {
 
     private final Gson gson;
     private final ClientAccountService clientAccountService;
+    private final TransferService transferService;
 
     @Inject
-    public RouterImpl(Gson gson, ClientAccountService clientAccountService) {
+    public RouterImpl(Gson gson, ClientAccountService clientAccountService, TransferService transferService) {
         this.gson = gson;
         this.clientAccountService = clientAccountService;
+        this.transferService = transferService;
     }
 
 
@@ -65,6 +70,7 @@ public class RouterImpl implements Router {
 
             post("/transfer", (req, res) -> {
                 TransferRequest transferRequest = gson.fromJson(req.body(), TransferRequest.class);
+                transferService.transfer(transferRequest);
                 return "";
             });
 
@@ -74,8 +80,19 @@ public class RouterImpl implements Router {
             });
 
             exception(AccountNotFoundException.class, (ex, req, res) -> {
-                res.status(404);
-                res.body(String.format(EXCEPTION_BODY, 404, ex.getMessage()));
+                int statusCode = "post".equalsIgnoreCase(req.requestMethod()) ? 400 : 404;
+                res.status(statusCode);
+                res.body(String.format(EXCEPTION_BODY, statusCode, ex.getMessage()));
+            });
+
+            exception(InsufficientFundsException.class, (ex, req, res) -> {
+                res.status(400);
+                res.body(String.format(EXCEPTION_BODY, 400, ex.getMessage()));
+            });
+
+            exception(InvalidAmountValueException.class, (ex, req, res) -> {
+                res.status(400);
+                res.body(String.format(EXCEPTION_BODY, 400, ex.getMessage()));
             });
         });
     }

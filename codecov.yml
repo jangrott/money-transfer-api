@@ -1,3 +1,2 @@
 ignore:
-  - "src/main/java/pl/jangrot/mtransfer/model/*"
   - "src/main/java/pl/jangrot/mtransfer/DataGenerator.java"

@@ -25,6 +25,6 @@ public class TestUtils {
     }
 
     public static BigDecimal toBigDecimal(String balance) {
-        return BigDecimal.valueOf(Float.valueOf(balance));
+        return new BigDecimal(balance);
     }
 }

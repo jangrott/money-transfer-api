@@ -41,14 +41,14 @@ Feature: Clients / Accounts REST API
       | John      | Doe      |
     And clients have following accounts
       | firstName | lastName | accountBalance |
-      | John      | Doe      | 0.0            |
-      | John      | Doe      | 10000.0        |
+      | John      | Doe      | 0.00           |
+      | John      | Doe      | 10000.00       |
     When client requests GET /clients/<JohnDoeId>/accounts
     Then response status is 200
     And response includes the following accounts
-      | order | balance |
-      | 0     | 0.0     |
-      | 1     | 10000.0 |
+      | order | balance  |
+      | 0     | 0.00     |
+      | 1     | 10000.00 |
 
   Scenario: Retrieving single account for given client
     Given system contains following clients
@@ -56,11 +56,11 @@ Feature: Clients / Accounts REST API
       | John      | Doe      |
     And clients have following accounts
       | firstName | lastName | accountBalance |
-      | John      | Doe      | 10000.0        |
+      | John      | Doe      | 10000.00       |
     When client requests GET /clients/<JohnDoeId>/accounts/<JohnDoeAccountId>
     Then response status is 200
     And response includes the following account
-      | balance | 10000.0 |
+      | balance | 10000.00 |
 
   Scenario: Retrieving non existing account for given client
     Given system contains following clients

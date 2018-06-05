@@ -1,6 +1,7 @@
 package pl.jangrot.mtransfer.dao;
 
 import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import pl.jangrot.mtransfer.model.Account;
 
@@ -47,6 +48,29 @@ public class AccountDaoImpl implements AccountDao {
         }
 
         return Optional.ofNullable(account);
+    }
+
+    @Override
+    public Optional<Account> getAccount(Long accountId) {
+        TypedQuery<Account> query = em.get().createQuery(
+                "select a from account a where a.id = :accountId", Account.class)
+                .setParameter("accountId", accountId);
+
+        Account account = null;
+
+        try {
+            account = query.getSingleResult();
+        } catch (NoResultException e) {
+            log.warn("No account with id: {}", accountId);
+        }
+
+        return Optional.ofNullable(account);
+    }
+
+    @Transactional
+    @Override
+    public void update(Account account) {
+        em.get().merge(account);
     }
 
 
