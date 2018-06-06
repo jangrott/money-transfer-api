@@ -37,8 +37,7 @@ public class InternalTransferService implements TransferService {
         fromAccount.withdraw(amount);
         toAccount.deposit(amount);
 
-        accountDao.update(fromAccount);
-        accountDao.update(toAccount);
+        accountDao.update(fromAccount, toAccount);
     }
 
     private void validateAmount(float amount) {

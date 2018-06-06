@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,8 +66,8 @@ public class AccountDaoImpl implements AccountDao {
 
     @Transactional
     @Override
-    public void update(Account account) {
-        em.get().merge(account);
+    public void update(Account... accounts) {
+        Arrays.asList(accounts).forEach(em.get()::merge);
     }
 
 

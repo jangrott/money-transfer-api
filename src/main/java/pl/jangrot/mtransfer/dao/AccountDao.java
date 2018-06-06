@@ -14,6 +14,6 @@ public interface AccountDao {
 
     Optional<Account> getAccount(Long accountId);
 
-    void update(Account account);
+    void update(Account... accounts);
 
 }
