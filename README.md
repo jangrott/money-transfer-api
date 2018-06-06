@@ -22,4 +22,17 @@ Simple java RESTful API for performing money transfer between two internal accou
     }
   ```
 
+## How to run
+### without any data in database
+```
+./gradlew run
+```
+### with sample data in database
+```
+./gradlew run -PgenerateData
+```
 
+## API tests
+### Human-readable test scenarios for endpoints:
+* `/api/clients` - [see here](src/test/resources/pl/jangrot/mtransfer/rest/clients_accounts.feature)
+* `/api/transfer` - [see here](src/test/resources/pl/jangrot/mtransfer/rest/transfer.feature)
