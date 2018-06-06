@@ -32,6 +32,8 @@ Simple java RESTful API for performing money transfer between two internal accou
 ./gradlew run -PgenerateData
 ```
 
+In both above examples, the application starts on following host:port - [http://localhost:4567](http://localhost:4567)
+
 ## API tests
 ### Human-readable test scenarios for endpoints:
 * `/api/clients` - [see here](src/test/resources/pl/jangrot/mtransfer/rest/clients_accounts.feature)
