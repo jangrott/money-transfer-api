@@ -1,9 +1,11 @@
 group 'pl.jangrot.mtransfer'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'groovy'
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'jacoco'
+
+mainClassName = 'pl.jangrot.mtransfer.App'
 
 sourceCompatibility = 1.8
 
