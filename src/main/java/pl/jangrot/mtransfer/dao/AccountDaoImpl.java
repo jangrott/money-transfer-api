@@ -39,15 +39,13 @@ public class AccountDaoImpl implements AccountDao {
                 .setParameter("clientId", clientId)
                 .setParameter("accountId", accountId);
 
-        Account account = null;
-
         try {
-            account = query.getSingleResult();
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             log.warn("No account with id: {}", accountId);
         }
 
-        return Optional.ofNullable(account);
+        return Optional.empty();
     }
 
     @Override
@@ -56,15 +54,13 @@ public class AccountDaoImpl implements AccountDao {
                 "select a from account a where a.id = :accountId", Account.class)
                 .setParameter("accountId", accountId);
 
-        Account account = null;
-
         try {
-            account = query.getSingleResult();
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             log.warn("No account with id: {}", accountId);
         }
 
-        return Optional.ofNullable(account);
+        return Optional.empty();
     }
 
     @Transactional

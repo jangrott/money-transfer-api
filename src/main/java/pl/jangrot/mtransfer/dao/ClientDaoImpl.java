@@ -35,14 +35,12 @@ public class ClientDaoImpl implements ClientDao {
                 .createQuery("select c from client c where c.id = :id", Client.class)
                 .setParameter("id", id);
 
-        Client client = null;
-
         try {
-            client = query.getSingleResult();
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             log.warn("No client with id: {}", id);
         }
 
-        return Optional.ofNullable(client);
+        return Optional.empty();
     }
 }
