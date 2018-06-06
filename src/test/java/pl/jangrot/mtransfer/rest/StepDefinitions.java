@@ -24,7 +24,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
+import static pl.jangrot.mtransfer.DataGenerator.ClientBuilder.aClient;
 import static pl.jangrot.mtransfer.util.TestUtils.*;
 
 public class StepDefinitions extends AbstractDaoIntegrationTest {

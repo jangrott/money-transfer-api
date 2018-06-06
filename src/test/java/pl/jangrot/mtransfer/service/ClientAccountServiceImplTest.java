@@ -23,8 +23,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.AccountBuilder.anAccount;
-import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
+import static pl.jangrot.mtransfer.DataGenerator.AccountBuilder.anAccount;
+import static pl.jangrot.mtransfer.DataGenerator.ClientBuilder.aClient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientAccountServiceImplTest {

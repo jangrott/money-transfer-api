@@ -33,7 +33,6 @@ public class RouterImpl implements Router {
         this.transferService = transferService;
     }
 
-
     @Override
     public void start() {
         path("/api", () -> {

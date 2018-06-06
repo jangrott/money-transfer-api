@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.AccountBuilder.anAccount;
+import static pl.jangrot.mtransfer.DataGenerator.AccountBuilder.anAccount;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalTransferServiceTest {

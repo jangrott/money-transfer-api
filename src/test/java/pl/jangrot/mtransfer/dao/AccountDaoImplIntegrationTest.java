@@ -11,8 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.AccountBuilder.anAccount;
-import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
+import static pl.jangrot.mtransfer.DataGenerator.AccountBuilder.anAccount;
+import static pl.jangrot.mtransfer.DataGenerator.ClientBuilder.aClient;
 
 public class AccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
 
