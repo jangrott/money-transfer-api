@@ -23,11 +23,11 @@ Simple java RESTful API for performing money transfer between two internal accou
   ```
 
 ## How to run
-### without any data in database
+### without any data in the database
 ```
 ./gradlew run
 ```
-### with sample data in database
+### with sample data in the database
 ```
 ./gradlew run -PgenerateData
 ```
