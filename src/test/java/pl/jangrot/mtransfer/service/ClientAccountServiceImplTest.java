@@ -23,8 +23,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createAccount;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createClient;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.AccountBuilder.anAccount;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientAccountServiceImplTest {
@@ -41,8 +41,16 @@ public class ClientAccountServiceImplTest {
     @Test
     public void returnsAllClients() {
         // given
-        Client c1 = createClient(UUID.randomUUID(), "Abc", "Qaz");
-        Client c2 = createClient(UUID.randomUUID(), "Zxc", "Qwe");
+        Client c1 = aClient()
+                .withId(UUID.randomUUID())
+                .withFirstName("Abc")
+                .withLastName("Qaz")
+                .build();
+        Client c2 = aClient()
+                .withId(UUID.randomUUID())
+                .withFirstName("Zxc")
+                .withLastName("Qwe")
+                .build();
         when(clientDao.getClients()).thenReturn(Lists.newArrayList(c1, c2));
 
         // when
@@ -67,7 +75,11 @@ public class ClientAccountServiceImplTest {
     @Test
     public void returnsSingleClient() {
         // given
-        Client c1 = createClient(UUID.randomUUID(), "Abc", "Qaz");
+        Client c1 = aClient()
+                .withId(UUID.randomUUID())
+                .withFirstName("Abc")
+                .withLastName("Qaz")
+                .build();
         when(clientDao.getClient(c1.getId())).thenReturn(Optional.of(c1));
 
         // when
@@ -103,8 +115,14 @@ public class ClientAccountServiceImplTest {
     public void returnsAllAccountsForGivenClient() {
         // given
         UUID clientId = UUID.randomUUID();
-        Account a1 = createAccount(1L, BigDecimal.ZERO);
-        Account a2 = createAccount(2L, BigDecimal.TEN);
+        Account a1 = anAccount()
+                .withId(1L)
+                .withBalance(BigDecimal.ZERO)
+                .build();
+        Account a2 = anAccount()
+                .withId(2L)
+                .withBalance(BigDecimal.TEN)
+                .build();
         List<Account> accounts = ImmutableList.of(a1, a2);
         when(accountDao.getAccounts(clientId)).thenReturn(accounts);
 
@@ -120,7 +138,10 @@ public class ClientAccountServiceImplTest {
         // given
         UUID clientId = UUID.randomUUID();
         long accountId = 1L;
-        Account a = createAccount(accountId, BigDecimal.TEN);
+        Account a = anAccount()
+                .withId(accountId)
+                .withBalance(BigDecimal.TEN)
+                .build();
         when(accountDao.getAccount(clientId, 1L)).thenReturn(Optional.of(a));
 
         // when

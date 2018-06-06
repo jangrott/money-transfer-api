@@ -24,7 +24,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createClient;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
 import static pl.jangrot.mtransfer.util.TestUtils.*;
 
 public class StepDefinitions extends AbstractDaoIntegrationTest {
@@ -58,7 +58,10 @@ public class StepDefinitions extends AbstractDaoIntegrationTest {
     @Given("^system contains following clients$")
     public void setupClients(DataTable inputData) {
         clients = inputData.asMaps(String.class, String.class).stream()
-                .map(row -> createClient(row.get("firstName"), row.get("lastName")))
+                .map(row -> aClient()
+                        .withFirstName(row.get("firstName"))
+                        .withLastName(row.get("lastName"))
+                        .build())
                 .collect(Collectors.toList());
     }
 

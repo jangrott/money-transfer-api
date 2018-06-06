@@ -11,8 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createAccount;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createClientWithAccounts;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.AccountBuilder.anAccount;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
 
 public class AccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
 
@@ -41,10 +41,13 @@ public class AccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
     @Test
     public void returnsAllAccountsForGivenClient() {
         // given
-        Account a1 = createAccount(BigDecimal.ZERO);
-        Account a2 = createAccount(BigDecimal.TEN);
-        List<Account> accounts = Lists.newArrayList(a1, a2);
-        Client c = createClientWithAccounts("Abc", "Zxc", accounts);
+        Account a1 = anAccount().withBalance(BigDecimal.ZERO).build();
+        Account a2 = anAccount().withBalance(BigDecimal.TEN).build();
+        Client c = aClient()
+                .withFirstName("Abc")
+                .withLastName("Zxc")
+                .withAccounts(a1, a2)
+                .build();
         storeClients(Lists.newArrayList(c));
 
         // when
@@ -66,9 +69,14 @@ public class AccountDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
     @Test
     public void returnsOptionalWithSingleAccountForGivenClient() {
         // given
-        Account a = createAccount(BigDecimal.ZERO);
-        List<Account> accounts = Lists.newArrayList(a);
-        Client c = createClientWithAccounts("Abc", "Zxc", accounts);
+        Account a = anAccount()
+                .withBalance(BigDecimal.ZERO)
+                .build();
+        Client c = aClient()
+                .withFirstName("Abc")
+                .withLastName("Zxc")
+                .withAccounts(a)
+                .build();
         storeClients(Lists.newArrayList(c));
 
         // when

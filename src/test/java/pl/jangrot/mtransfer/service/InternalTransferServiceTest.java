@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createAccount;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.AccountBuilder.anAccount;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalTransferServiceTest {
@@ -32,8 +32,14 @@ public class InternalTransferServiceTest {
     @Test
     public void transfersMoneyBetweenTwoAccounts() {
         // given
-        Account fromAccount = createAccount(0L, new BigDecimal("900.00"));
-        Account toAccount = createAccount(1L, new BigDecimal("600.00"));
+        Account fromAccount = anAccount()
+                .withId(0L)
+                .withBalance(new BigDecimal("900.00"))
+                .build();
+        Account toAccount = anAccount()
+                .withId(1L)
+                .withBalance(new BigDecimal("600.00"))
+                .build();
 
         TransferRequest request = new TransferRequest();
         request.setFromAccount(0L);
@@ -93,7 +99,9 @@ public class InternalTransferServiceTest {
         request.setToAccount(0L);
         request.setFromAccount(1L);
         request.setAmount(1000);
-        Account account = createAccount(BigDecimal.valueOf(900));
+        Account account = anAccount()
+                .withBalance(new BigDecimal("900.00"))
+                .build();
         when(accountDao.getAccount(anyLong())).thenReturn(Optional.of(account));
 
         // when

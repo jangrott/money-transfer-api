@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pl.jangrot.mtransfer.util.TestDataGenerator.createClient;
+import static pl.jangrot.mtransfer.util.TestDataGeneratorHelper.ClientBuilder.aClient;
 
 public class ClientDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
 
@@ -47,8 +47,14 @@ public class ClientDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
     @Test
     public void returnsAllClients() {
         // given
-        Client c1 = createClient("Abc", "Qwe");
-        Client c2 = createClient("Yui", "Bnm");
+        Client c1 = aClient()
+                .withFirstName("Abc")
+                .withLastName("Qwe")
+                .build();
+        Client c2 = aClient()
+                .withFirstName("Yui")
+                .withLastName("Bnm")
+                .build();
         storeClients(Lists.newArrayList(c1, c2));
 
         // when
@@ -61,7 +67,10 @@ public class ClientDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
     @Test
     public void returnsOptionalWithSingleClient() {
         // given
-        Client c1 = createClient("Abc", "Qwe");
+        Client c1 = aClient()
+                .withFirstName("Abc")
+                .withLastName("Qwe")
+                .build();
         storeClients(Lists.newArrayList(c1));
 
         // when
