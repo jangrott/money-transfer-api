@@ -39,3 +39,9 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+run {
+    if (project.hasProperty("generateData")) {
+        args([true])
+    }
+}
