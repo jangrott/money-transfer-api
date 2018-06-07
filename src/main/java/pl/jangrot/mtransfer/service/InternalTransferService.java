@@ -73,7 +73,8 @@ public class InternalTransferService implements TransferService {
             try {
                 TimeUnit.NANOSECONDS.sleep(FIXED_DELAY + rnd.nextLong() % RANDOM_DELAY);
             } catch (InterruptedException e) {
-                return false;
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
             }
         }
     }
