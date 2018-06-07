@@ -62,6 +62,7 @@ public class InternalTransferServiceTest {
         long nonExistingAccountId = 0L;
         TransferRequest request = new TransferRequest();
         request.setFromAccount(nonExistingAccountId);
+        request.setAmount(1F);
 
         // when
         underTest.transfer(request);
@@ -74,6 +75,7 @@ public class InternalTransferServiceTest {
         long nonExistingAccountId = 0L;
         TransferRequest request = new TransferRequest();
         request.setToAccount(nonExistingAccountId);
+        request.setAmount(1F);
 
         // when
         underTest.transfer(request);
@@ -83,10 +85,7 @@ public class InternalTransferServiceTest {
     public void throwsExceptionWhenAmountNotHigherThanZero() {
         // given
         TransferRequest request = new TransferRequest();
-        request.setToAccount(0L);
-        request.setFromAccount(1L);
         request.setAmount(0);
-        when(accountDao.getAccount(anyLong())).thenReturn(Optional.of(new Account()));
 
         // when
         underTest.transfer(request);

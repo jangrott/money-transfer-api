@@ -20,6 +20,7 @@ public class RouterImpl implements Router {
 
     private static final String EMPTY = "";
     private static final String SUCCESSFUL_TRANSFER_BODY = "{\"transferStatus\": \"OK\"}";
+    private static final String FAILED_TRANSFER_BODY = "{\"transferStatus\": \"FAILED\"}";
     private static final String EXCEPTION_BODY = "{\"statusCode\": %d, \"message\": \"%s\"}";
 
     private final Gson gson;
@@ -70,8 +71,7 @@ public class RouterImpl implements Router {
 
             post("/transfer", (req, res) -> {
                 TransferRequest transferRequest = gson.fromJson(req.body(), TransferRequest.class);
-                transferService.transfer(transferRequest);
-                return SUCCESSFUL_TRANSFER_BODY;
+                return transferService.transfer(transferRequest) ? SUCCESSFUL_TRANSFER_BODY : FAILED_TRANSFER_BODY;
             });
 
             exception(ClientNotFoundException.class, (ex, req, res) -> {

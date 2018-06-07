@@ -4,5 +4,5 @@ import pl.jangrot.mtransfer.dto.TransferRequest;
 
 public interface TransferService {
 
-    void transfer(TransferRequest transferRequest);
+    boolean transfer(TransferRequest transferRequest);
 }
