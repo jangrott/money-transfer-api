@@ -20,7 +20,7 @@ import static pl.jangrot.mtransfer.DataGenerator.ClientBuilder.aClient;
 
 public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrationTest {
 
-    private static final int NUM_OF_THREADS = 4;
+    private static final int NUM_OF_THREADS = 1000;
 
     private AccountDaoImpl accountDao;
     private TransferService underTest;
@@ -70,10 +70,10 @@ public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrati
 
         Executors.newFixedThreadPool(4).invokeAll(tasks);
 
-        assertThat(fromAccount.getBalance()).isEqualTo(BigDecimal.valueOf(1000004.55));
-        assertThat(toAccount.getBalance()).isEqualTo(BigDecimal.valueOf(499996.55));
-        assertThat(accountDao.getAccount(fromAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(1000004.55));
-        assertThat(accountDao.getAccount(toAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(499996.55));
+        assertThat(fromAccount.getBalance()).isEqualTo(BigDecimal.valueOf(1001000.55));
+        assertThat(toAccount.getBalance()).isEqualTo(BigDecimal.valueOf(499000.55));
+        assertThat(accountDao.getAccount(fromAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(1001000.55));
+        assertThat(accountDao.getAccount(toAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(499000.55));
     }
 
     private TransferRequest createTransferRequest(Account fromAccount, Account toAccount, float amount) {
