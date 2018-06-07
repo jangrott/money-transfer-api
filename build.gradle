@@ -30,7 +30,12 @@ dependencies {
             'io.cucumber:cucumber-junit:2.4.0',
             'io.rest-assured:rest-assured:3.0.6'
 }
-
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+    }
+}
 jacocoTestReport {
     reports {
         xml.enabled true
