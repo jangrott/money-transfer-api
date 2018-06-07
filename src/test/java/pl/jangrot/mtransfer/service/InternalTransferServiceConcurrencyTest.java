@@ -20,7 +20,7 @@ import static pl.jangrot.mtransfer.DataGenerator.ClientBuilder.aClient;
 
 public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrationTest {
 
-    private static final int NUM_OF_THREADS = 100;
+    private static final int NUM_OF_THREADS = 1000;
 
     private AccountDaoImpl accountDao;
     private TransferService underTest;
@@ -38,6 +38,11 @@ public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrati
 
     @After
     public void clearDB() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         cleanDB();
     }
 
@@ -57,7 +62,8 @@ public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrati
         Client client = aClient()
                 .withFirstName("John")
                 .withLastName("Doe")
-                .withAccounts(fromAccount, toAccount).build();
+                .withAccounts(fromAccount, toAccount)
+                .build();
         storeClients(Lists.newArrayList(client));
 
         Collection<Callable<Boolean>> tasks = new ArrayList<>(NUM_OF_THREADS);
@@ -67,12 +73,12 @@ public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrati
             tasks.add(() -> underTest.transfer(createTransferRequest(toAccount, fromAccount, 2.00F)));
         }
 
-        Executors.newSingleThreadExecutor().invokeAll(tasks);
+        Executors.newFixedThreadPool(4).invokeAll(tasks);
 
-        assertThat(fromAccount.getBalance()).isEqualTo(BigDecimal.valueOf(1000100.55));
-        assertThat(toAccount.getBalance()).isEqualTo(BigDecimal.valueOf(499900.55));
-        assertThat(accountDao.getAccount(fromAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(1000100.55));
-        assertThat(accountDao.getAccount(toAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(499900.55));
+        assertThat(fromAccount.getBalance()).isEqualTo(BigDecimal.valueOf(1001000.55));
+        assertThat(toAccount.getBalance()).isEqualTo(BigDecimal.valueOf(499000.55));
+        assertThat(accountDao.getAccount(fromAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(1001000.55));
+        assertThat(accountDao.getAccount(toAccount.getId()).get().getBalance()).isEqualTo(BigDecimal.valueOf(499000.55));
     }
 
     private TransferRequest createTransferRequest(Account fromAccount, Account toAccount, float amount) {
