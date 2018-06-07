@@ -4,6 +4,6 @@ jdk:
   - oraclejdk8
 
 script:
-  - gradlew check -- debug
+  - ./gradlew check -- debug
 after_success:
   - bash <(curl -s https://codecov.io/bash)
