@@ -44,7 +44,10 @@ public class AbstractDaoIntegrationTest {
     protected void cleanDB() {
         EntityTransaction tx = getEm().getTransaction();
         tx.begin();
-        clients.forEach(getEm()::remove);
+        clients.forEach(client -> {
+            Client c = getEm().find(Client.class, client.getId());
+            getEm().remove(c);
+        });
         clients.clear();
         tx.commit();
     }
