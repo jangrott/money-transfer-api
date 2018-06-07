@@ -67,7 +67,7 @@ public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrati
             tasks.add(() -> underTest.transfer(createTransferRequest(toAccount, fromAccount, 2.00F)));
         }
 
-        Executors.newFixedThreadPool(4).invokeAll(tasks);
+        Executors.newSingleThreadExecutor().invokeAll(tasks);
 
         assertThat(fromAccount.getBalance()).isEqualTo(BigDecimal.valueOf(1000100.55));
         assertThat(toAccount.getBalance()).isEqualTo(BigDecimal.valueOf(499900.55));
