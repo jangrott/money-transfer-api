@@ -8,13 +8,18 @@ import pl.jangrot.mtransfer.exception.InsufficientFundsException;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Entity(name = "account")
 @Getter
 @Setter
-@ToString(exclude = "_client")
-@EqualsAndHashCode(exclude = "_client")
+@ToString(exclude = {"_client", "_lock"})
+@EqualsAndHashCode(exclude = {"_client", "_lock"})
 public class Account {
+
+    @Transient
+    public Lock _lock = new ReentrantLock();
 
     @Id
     @Column
