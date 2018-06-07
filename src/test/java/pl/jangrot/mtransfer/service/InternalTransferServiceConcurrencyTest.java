@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static pl.jangrot.mtransfer.DataGenerator.AccountBuilder.anAccount;
 import static pl.jangrot.mtransfer.DataGenerator.ClientBuilder.aClient;
 
-@Ignore // This test works fine when run locally, but for some reason fails on CI tool (Travis CI)
 public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrationTest {
 
     private static final int NUM_OF_THREADS = 1000;
@@ -58,7 +57,8 @@ public class InternalTransferServiceConcurrencyTest extends AbstractDaoIntegrati
         Client client = aClient()
                 .withFirstName("John")
                 .withLastName("Doe")
-                .withAccounts(fromAccount, toAccount).build();
+                .withAccounts(fromAccount, toAccount)
+                .build();
         storeClients(Lists.newArrayList(client));
 
         Collection<Callable<Boolean>> tasks = new ArrayList<>(NUM_OF_THREADS);
