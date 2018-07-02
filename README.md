@@ -9,9 +9,9 @@ Simple java RESTful API for performing money transfer between two internal accou
 
 ## Endpoints
 * `GET` /api/clients - returns all existing clients
-* `GET` /api/clients/<clientId> - returns the specified client
-* `GET` /api/clients/<clientId>/accounts - returns all accounts of the specified client
-* `GET` /api/clients/<clientId>/accounts/<accountId> - returns the specified account of the specified client
+* `GET` /api/clients/&lt;clientId&gt; - returns the specified client
+* `GET` /api/clients/&lt;clientId&gt;/accounts - returns all accounts of the specified client
+* `GET` /api/clients/&lt;clientId&gt;/accounts/&lt;accountId&gt; - returns the specified account of the specified client
 * `POST` /api/transfer - performs money transfer between two internal accounts
   - example request body
   ```json
